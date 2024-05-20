@@ -13,7 +13,7 @@ const Topbar = () => {
       </Link>
 
       <div>
-        <div className="block md:hidden">
+        <div className="block">
           <SignedIn>
             <SignOutButton>
               <div className="flex cursor-pointer">
