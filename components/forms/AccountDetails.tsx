@@ -1,7 +1,7 @@
 "use client";
 
 //prettier-ignore
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage} from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl} from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +11,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/lib/validation";
 import Image from "next/image";
+import { updateUser } from "@/lib/actions/user.actions";
+import { usePathname, useRouter } from "next/navigation";
 
 interface IUserDetails {
   user: {
@@ -24,17 +26,35 @@ interface IUserDetails {
   btnTitle: string;
 }
 
-const AccountDetails = () => {
+const AccountDetails = ({ user, btnTitle }: IUserDetails) => {
+  const path = usePathname();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      username: "",
-      name: "",
-      photo_url: "",
+      username: user?.username || "",
+      name: user?.name || "",
+      // photo_url: user?.image || "",
+      bio: user?.bio || "",
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof userSchema>) => {};
+  const handleSubmit = async (values: z.infer<typeof userSchema>) => {
+    await updateUser({
+      userId: user.id,
+      name: values.name,
+      username: values.username,
+      bio: values.bio,
+      path: path,
+    });
+
+    // if (path === "/profile/edit") {
+    //   router.back();
+    // } else {
+    //   router.push("/");
+    // }
+  };
 
   return (
     <Form {...form}>
@@ -42,7 +62,7 @@ const AccountDetails = () => {
         onSubmit={form.handleSubmit(handleSubmit)}
         className="space-y-8 rounded-md px-12 py-10  bg-dark-2"
       >
-        <FormField
+        {/* <FormField
           control={form.control}
           name="photo_url"
           render={({ field }) => (
@@ -74,7 +94,7 @@ const AccountDetails = () => {
               </FormControl>
             </FormItem>
           )}
-        />
+        /> */}
 
         <FormField
           control={form.control}
@@ -83,7 +103,7 @@ const AccountDetails = () => {
             <FormItem className="flex flex-col gap-2 ">
               <FormLabel className="text-xl font-medium">Name</FormLabel>
               <FormControl>
-                <Input type="text" className="bg-profile-input" />
+                <Input type="text" className="bg-profile-input" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -96,7 +116,7 @@ const AccountDetails = () => {
             <FormItem className="flex flex-col gap-2 ">
               <FormLabel className="text-xl font-medium">UsernName</FormLabel>
               <FormControl>
-                <Input type="text" className="bg-profile-input" />
+                <Input type="text" className="bg-profile-input" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -109,7 +129,7 @@ const AccountDetails = () => {
             <FormItem className="flex flex-col gap-2 ">
               <FormLabel className="text-xl font-medium">Bio</FormLabel>
               <FormControl>
-                <Textarea className="bg-profile-input" />
+                <Textarea className="bg-profile-input" {...field} />
               </FormControl>
             </FormItem>
           )}
