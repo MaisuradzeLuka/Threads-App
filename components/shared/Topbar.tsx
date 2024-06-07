@@ -12,8 +12,8 @@ const Topbar = () => {
         <p className="text-xl font-medium">Threads</p>
       </Link>
 
-      <div>
-        <div className="block">
+      <div className="flex items-center">
+        <div className="block md:hidden">
           <SignedIn>
             <SignOutButton>
               <div className="flex cursor-pointer">

@@ -21,8 +21,6 @@ export async function updateUser({
 }: IUpdateUser): Promise<void> {
   await connectToDB();
 
-  console.log(userId);
-
   try {
     await user.findOneAndUpdate(
       { id: userId },
@@ -30,7 +28,7 @@ export async function updateUser({
         username: username.toLocaleLowerCase(),
         name,
         bio,
-        onBoarding: true,
+        onboarded: true,
       },
       { upsert: true }
     );
@@ -39,4 +37,14 @@ export async function updateUser({
       revalidatePath(path);
     }
   } catch (error) {}
+}
+
+export async function fetchUser(userId: string) {
+  try {
+    connectToDB();
+
+    return await user.findOne({ id: userId });
+  } catch (error: any) {
+    throw new Error(`Something went wrong: ${error.message}`);
+  }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 //prettier-ignore
-import { Form, FormField, FormItem, FormLabel, FormControl} from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage} from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,7 +21,7 @@ interface IUserDetails {
     username: string;
     name: string;
     bio: string;
-    image: string;
+    // image: string;
   };
   btnTitle: string;
 }
@@ -49,11 +49,11 @@ const AccountDetails = ({ user, btnTitle }: IUserDetails) => {
       path: path,
     });
 
-    // if (path === "/profile/edit") {
-    //   router.back();
-    // } else {
-    //   router.push("/");
-    // }
+    if (path === "/profile/edit") {
+      router.back();
+    } else {
+      router.push("/");
+    }
   };
 
   return (
@@ -92,6 +92,8 @@ const AccountDetails = ({ user, btnTitle }: IUserDetails) => {
                   className="bg-profile-image"
                 />
               </FormControl>
+                            <FormMessage/>
+
             </FormItem>
           )}
         /> */}
@@ -105,6 +107,7 @@ const AccountDetails = ({ user, btnTitle }: IUserDetails) => {
               <FormControl>
                 <Input type="text" className="bg-profile-input" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -118,6 +121,7 @@ const AccountDetails = ({ user, btnTitle }: IUserDetails) => {
               <FormControl>
                 <Input type="text" className="bg-profile-input" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -131,6 +135,7 @@ const AccountDetails = ({ user, btnTitle }: IUserDetails) => {
               <FormControl>
                 <Textarea className="bg-profile-input" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

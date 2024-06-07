@@ -4,13 +4,14 @@ import Link from "next/link";
 import { sidebarLinks } from "@/constants";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
+import { SignedIn, SignOutButton } from "@clerk/nextjs";
 
 const Leftbar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
   return (
-    <section className="bg-dark-4 text-white px-5 py-7 h-screen hidden md:block">
+    <section className="hidden flex-col justify-between bg-dark-4 text-white px-5 py-7 h-screen md:flex">
       <div className="flex flex-col items-start gap-6">
         {sidebarLinks.map((link) => {
           const isActive =
@@ -35,6 +36,23 @@ const Leftbar = () => {
             </Link>
           );
         })}
+      </div>
+
+      <div className="flex items-center justify-center">
+        <div className="hidden md:block">
+          <SignedIn>
+            <SignOutButton>
+              <div className="flex cursor-pointer">
+                <Image
+                  src="/assets/logout.svg"
+                  alt="logout"
+                  width={24}
+                  height={24}
+                />
+              </div>
+            </SignOutButton>
+          </SignedIn>
+        </div>
       </div>
     </section>
   );

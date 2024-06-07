@@ -25,10 +25,10 @@ export default function RootLayout({
         <body className={inter.className}>
           <Topbar />
 
-          <main className="flex">
+          <main className="flex bg-dark-1 text-white">
             <Leftbar />
 
-            <section>
+            <section className="w-full px-8 py-6 lg:px-20">
               <div>{children}</div>
             </section>
 
